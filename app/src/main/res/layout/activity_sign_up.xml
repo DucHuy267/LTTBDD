@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.SignUpActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:gravity="center">
+
+    <TextView
+        android:layout_marginTop="@dimen/_15sdp"
+        android:id="@+id/text234"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:text="Đăng Ký"
+        android:textColor="@color/pink1"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="@dimen/_15sdp"/>
+
+
+    <EditText
+        android:id="@+id/ed_name"
+        android:background="@drawable/edit_text"
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:padding="15dp"
+        android:drawableLeft="@drawable/ic_account"
+        android:drawablePadding="15dp"
+        android:elevation="3dp" />
+
+        <EditText
+            android:id="@+id/ed_sdt"
+            android:layout_width="@dimen/_280sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/edit_text"
+            android:drawableLeft="@drawable/ic_account"
+            android:drawablePadding="15dp"
+            android:elevation="3dp"
+            android:hint="Phone"
+            android:padding="15dp"/>
+
+    <EditText
+
+        android:id="@+id/ed_passwd"
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/edit_text"
+        android:drawableLeft="@drawable/ic_key"
+        android:drawablePadding="15dp"
+        android:elevation="3dp"
+        android:hint="Password"
+        android:inputType="numberPassword"
+        android:padding="15dp"
+        />
+    <EditText
+
+        android:id="@+id/ed_passwd2"
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/edit_text"
+        android:drawableLeft="@drawable/ic_key"
+        android:drawablePadding="15dp"
+        android:elevation="3dp"
+        android:hint="Xác Nhận Password"
+        android:inputType="numberPassword"
+        android:padding="15dp"
+        />
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:backgroundTint="@color/pink1"
+            android:onClick="signin"
+            android:padding="15dp"
+            android:text="Hoàn Tất"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+</layout>
