@@ -4,6 +4,7 @@ public class MealDetail {
     int id;
     String meal, category, instructions, strmealthumb;
     double price;
+    int amount;
 
     public int getId() {
         return id;
@@ -51,5 +52,13 @@ public class MealDetail {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }

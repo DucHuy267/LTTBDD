@@ -18,7 +18,7 @@ import java.util.List;
 
 import io.paperdb.Paper;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHoler> {
+public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> {
     private Context context;
     private List<Cart> cartList;
     private ChangeNumListener changeNumListener;
@@ -31,42 +31,53 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHoler> {
 
     @NonNull
     @Override
-    public MyViewHoler onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemCartBinding cartBinding = ItemCartBinding.inflate(LayoutInflater.from(parent.getContext()),parent, false);
-        return new MyViewHoler(cartBinding);
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ItemCartBinding cartBinding = ItemCartBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new MyViewHolder(cartBinding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHoler holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Cart cart = cartList.get(position);
-        holder.binding.txtname.setText(cart.getMealDetail().getMeal());
-        Glide.with(context).load(cart.getMealDetail().getStrmealthumb()).into(holder.binding.imageCart);
-        holder.binding.txtprice.setText(cart.getMealDetail().getPrice() + "");
-        holder.binding.imgAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addToCart(holder.getAdapterPosition());
-                notifyDataSetChanged();
-                changeNumListener.change();
-            }
+
+        // Đảm bảo MealDetail không null trước khi truy cập thuộc tính
+        if (cart.getMealDetail() != null) {
+            holder.binding.txtname.setText(cart.getMealDetail().getMeal());
+            Glide.with(context).load(cart.getMealDetail().getStrmealthumb()).into(holder.binding.imageCart);
+            holder.binding.txtprice.setText(String.valueOf(cart.getMealDetail().getPrice()));
+        } else {
+            // Xử lý trường hợp MealDetail null (tùy chọn: đặt giá trị mặc định hoặc ẩn các view)
+            holder.binding.txtname.setText("Bữa ăn không xác định");
+            holder.binding.imageCart.setImageResource(android.R.drawable.alert_dark_frame); // Đặt hình ảnh dự phòng
+            holder.binding.txtprice.setText("N/A");
+        }
+
+        holder.binding.imgAdd.setOnClickListener(view -> {
+            addToCart(holder.getAdapterPosition());
+            notifyDataSetChanged();
+            changeNumListener.change();
         });
-        holder.binding.imgSub.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                subToCart(holder.getAdapterPosition());
-                notifyDataSetChanged();
-                changeNumListener.change();
-            }
+
+        holder.binding.imgSub.setOnClickListener(view -> {
+            subToCart(holder.getAdapterPosition());
+            notifyDataSetChanged();
+            changeNumListener.change();
         });
-        holder.binding.txtamount.setText(cart.getAmount() + "");
-        holder.binding.txtprice2.setText(String.valueOf(cart.getAmount() * cart.getMealDetail().getPrice()) + "đ");
+
+        holder.binding.txtamount.setText(String.valueOf(cart.getAmount()));
+        // Tính toán tổng giá và đặt vào txtprice2
+        if (cart.getMealDetail() != null) {
+            holder.binding.txtprice2.setText(String.valueOf(cart.getAmount() * cart.getMealDetail().getPrice()) + "đ");
+        } else {
+            holder.binding.txtprice2.setText("N/A"); // Xử lý MealDetail null cho tổng giá
+        }
     }
 
     private void subToCart(int adapterPosition) {
-        if(Utils.cartList.get(adapterPosition).getAmount() ==1){
-           Utils.cartList.remove(adapterPosition);
-        }else {
-           Utils.cartList.get(adapterPosition).setAmount(Utils.cartList.get(adapterPosition).getAmount() - 1);
+        if (Utils.cartList.get(adapterPosition).getAmount() == 1) {
+            Utils.cartList.remove(adapterPosition);
+        } else {
+            Utils.cartList.get(adapterPosition).setAmount(Utils.cartList.get(adapterPosition).getAmount() - 1);
         }
         Paper.book().write("Cart", Utils.cartList);
     }
@@ -81,13 +92,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHoler> {
         return cartList.size();
     }
 
-    public class MyViewHoler extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         private ItemCartBinding binding;
 
-        public MyViewHoler(ItemCartBinding binding) {
+        public MyViewHolder(ItemCartBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
-
     }
 }

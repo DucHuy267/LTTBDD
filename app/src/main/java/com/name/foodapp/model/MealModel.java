@@ -30,4 +30,8 @@ public class MealModel {
     public void setResult(List<Meals> result) {
         this.result = result;
     }
+
+    public List<Meals> getMeals() {
+        return null;
+    }
 }

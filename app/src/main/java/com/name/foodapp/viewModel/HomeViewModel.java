@@ -19,6 +19,6 @@ public class HomeViewModel extends ViewModel {
         return categoryRepository.getCategory();
     }
     public MutableLiveData<MealModel> mealsModelMutableLiveData(int idcate){
-        return mealRepository.getMeals(idcate);
+        return (MutableLiveData<MealModel>) mealRepository.getMeals(idcate);
     }
 }
